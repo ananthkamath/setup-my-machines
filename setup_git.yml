@@ -1,0 +1,26 @@
+---
+- name: Setup Git Configs
+  hosts: localhost
+
+  tasks:
+    - name: Setup Global gitconfig
+      file:
+        src: "~/setup-my-machines/files/git/.gitconfig"
+        dest: "~/.gitconfig"
+        state: link
+        force: true
+        follow: false
+    - name: Setup Global gitignore
+      file:
+        src: "~/setup-my-machines/files/git/.gitignore_global"
+        dest: "~/.gitignore_global"
+        state: link
+        force: true
+        follow: false
+    - name: Setup Global gitmessage
+      file:
+        src: "~/setup-my-machines/files/git/.gitmessage"
+        dest: "~/.gitmessage"
+        state: link
+        force: true
+        follow: false

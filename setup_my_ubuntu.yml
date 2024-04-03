@@ -1,0 +1,43 @@
+---
+- name: Setup My Ubuntu Machine
+  hosts: localhost
+
+  tasks:
+    - name: Setup SSH Configs
+      command: ansible-playbook setup_ssh_ed.yml
+    - name: Setup Git Configs
+      command: ansible-playbook setup_git.yml
+    - name: Install zsh with dependencies are installed
+      vars:
+      - zsh_dependencies: []
+      apt:
+        name: "{{ ['zsh'] + zsh_dependencies }}"
+        state: present
+        update_cache: yes
+      become: true
+    - name: Update zsh as the default shell
+      user:
+        name: "{{ ansible_user }}"
+        shell: "/usr/bin/zsh"
+      become: true
+    - name: Download Oh My Zsh Installation Script
+      get_url:
+        url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+        dest: /tmp/install_ohmyzsh.sh
+    - name: Run Oh My Zsh Installation Script
+      command: sh /tmp/install_ohmyzsh.sh --unattended
+      register: ohmyzsh_result
+      failed_when: "'FAILED' in ohmyzsh_result.stderr"
+    - name: Setup zshrc File
+      file:
+        src: "~/setup-my-machines/files/zsh/zshrc_ubuntu"
+        dest: "~/.zshrc"
+        state: link
+        force: true
+        follow: false
+    - name: Install Oh My Zsh zsh-autocomplete plugin
+      ansible.builtin.git:
+        repo: git@github.com:zsh-users/zsh-autosuggestions.git
+        dest: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+        depth: 1
+
