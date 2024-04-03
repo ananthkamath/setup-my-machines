@@ -1,0 +1,12 @@
+---
+- name: Setup Git Configs
+  hosts: localhost
+  
+  tasks: 
+  - name: Setup SSH Configs
+    file:
+      src: "~/setup-my-machines/files/ssh/config_rsa"
+      dest: "~/.ssh/config"
+      state: link
+      force: true
+      follow: false
