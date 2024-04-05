@@ -1,0 +1,11 @@
+---
+- name: Setup Git Configs
+  hosts: localhost
+  vars:
+    ssh_private_key_filename: "id_ed25519"
+  
+  tasks: 
+  - name: Setup SSH Configs
+    ansible.builtin.template:
+      src: "~/setup-my-machines/files/ssh/config.j2"
+      dest: "~/.ssh/config"
