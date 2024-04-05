@@ -4,7 +4,7 @@
 
   tasks:
     - name: Setup SSH Configs
-      command: ansible-playbook setup_ssh_ed.yml
+      command: ansible-playbook setup_ssh_config.yml
     - name: Setup Git Configs
       command: ansible-playbook setup_git.yml
     - name: Install zsh with dependencies are installed
