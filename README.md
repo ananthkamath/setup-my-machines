@@ -1,7 +1,9 @@
-# This playbook repo will help you setup all tools required to get started on your new Ubuntu, Macbook or Raspberry Pi machine
+# Setup My Machines 
 
-## Setup All Tools On Ubuntu
+This playbook repo will help you setup all tools required to get started on your new Ubuntu, Macbook or Raspberry Pi machines.
+
+## Setup All Tools On Debian OS
 ```
-  bash setup_ubuntu.sh
-  ansible-playbook -u {USER} --ask-become-pass setup_my_ubuntu.yml
+  bash setup_my_debian_foundations.sh
+  ansible-playbook -u {USER} --ask-become-pass setup_my_debian_system.yml
 ```
