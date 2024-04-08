@@ -40,4 +40,38 @@
         repo: git@github.com:zsh-users/zsh-autosuggestions.git
         dest: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
         depth: 1
-
+    - name: Install Required apt Packages
+      vars:
+      - apt_packages: ['syncthing', ]
+      apt:
+        name: "{{ apt_packages }}"
+        state: present
+        update_cache: yes
+      become: true
+    - name: Download Obsidian Package
+      get_url:
+        url: https://github.com/obsidianmd/obsidian-releases/releases/download/v1.5.11/obsidian_1.5.11_amd64.deb
+        dest: /tmp/obsidian_1.5.11_amd64.deb
+    - name: Install Obsidian Package
+      command: apt-get install -y /tmp/obsidian_1.5.11_amd64.deb
+      register: install_obsidian_result
+      failed_when: "'FAILED' in install_obsidian_result.stderr"
+      become: true
+    - name: Install Obsidian Dependencies
+      vars:
+      - obsidian_dependencies: ['libgbm1', 'libasound2']
+      apt:
+        name: "{{ obsidian_dependencies }}"
+        state: present
+        update_cache: yes
+      become: true
+    - name: Install tfenv
+      ansible.builtin.git:
+        repo: git@github.com:tfutils/tfenv.git
+        dest: ~/.tfenv
+        depth: 1
+    - name: Install nvm
+      ansible.builtin.shell: >
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+      args:
+        creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
