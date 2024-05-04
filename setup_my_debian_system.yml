@@ -42,7 +42,7 @@
         depth: 1
     - name: Install Required apt Packages
       vars:
-      - apt_packages: ['syncthing', ]
+      - apt_packages: ['syncthing', 'python3-pip']
       apt:
         name: "{{ apt_packages }}"
         state: present
